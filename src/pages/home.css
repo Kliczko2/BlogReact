@@ -1,0 +1,17 @@
+.homePage{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: left;
+    justify-content: space-evenly;
+}
+.homePage .post{
+    border:1px solid red;
+    padding: 2%;
+    margin: 0.2%;
+    flex-grow: 1;
+}
+.postHeader{
+    width: 100%;
+    border-bottom: 3px solid black;
+    border-radius: 10px;
+}

@@ -4,13 +4,27 @@ import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import './createpost.css';
 
-function CreatePost()
-{
+function CreatePost({ isAuth }) {
   const [title, setTitle] = useState("");
   const [post, setPost] = useState("");
+  const postsCollection = collection(db, "posts");
+  let navigate = useNavigate();
+  const createPost = async () => {
+    await addDoc(postsCollection, {
+      title,
+      post,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+    });
+    navigate("/");
+  };
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, []);
 
-    return(
-      <div className="createPost">
+  return (
+    <div className="createPost">
       <div className="cpContainer">
         <h1>Stwórz posta</h1>
         <div className="inputGp">
@@ -31,9 +45,9 @@ function CreatePost()
             }}
           />
         </div>
-        <button>wyślij</button>
+        <button onClick={createPost}>Submit Post</button>
       </div>
     </div>
-    )
+  );
 }
-export default CreatePost
+export default CreatePost;
